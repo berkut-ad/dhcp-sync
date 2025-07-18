@@ -9,7 +9,7 @@ def init_db(db_path):
             ip TEXT PRIMARY KEY,
             mac TEXT,
             hostname TEXT,
-            expiry TEXT
+            lease_expiry TEXT
         )
     ''')
     conn.commit()
@@ -17,19 +17,19 @@ def init_db(db_path):
 
 def get_all_leases(conn):
     c = conn.cursor()
-    c.execute("SELECT ip, mac, hostname, expiry FROM leases")
+    c.execute("SELECT ip, mac, hostname, lease_expiry FROM leases")
     rows = c.fetchall()
-    return {row[0]: {"mac": row[1], "hostname": row[2], "expiry": row[3]} for row in rows}
+    return {row[0]: {"mac": row[1], "hostname": row[2], "lease_expiry": row[3]} for row in rows}
 
 def update_lease(conn, lease):
     c = conn.cursor()
     c.execute('''
-        INSERT INTO leases (ip, mac, hostname, expiry)
+        INSERT INTO leases (ip, mac, hostname, lease_expiry)
         VALUES (?, ?, ?, ?)
         ON CONFLICT(ip) DO UPDATE SET
             mac=excluded.mac,
             hostname=excluded.hostname,
-            expiry=excluded.expiry
+            lease_expiry=excluded.lease_expiry
     ''', (lease["ip"], lease["mac"], lease["hostname"], lease["lease_expiry"]))
     conn.commit()
 

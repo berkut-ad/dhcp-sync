@@ -132,6 +132,7 @@ pip install -r requirements.txt
 - `--dry-run`: Simulate actions, don’t write to NetBox or DB.
 - `--only-expired`: Only process expired leases.
 - `--only-new`: Only process new leases.
+- `--no-verify-ssl`: Disable SSL certificate verification (insecure).
 
 ### CLI Overrides
 
