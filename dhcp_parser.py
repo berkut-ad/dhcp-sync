@@ -9,7 +9,7 @@ def parse_leases(file_path):
         expiry = lease.end.replace(tzinfo=timezone.utc).isoformat() if lease.end else None
         parsed.append({
             "ip": lease.ip,
-            "mac": lease.hardware,
+            "mac": lease.ethernet or "",
             "hostname": lease.hostname or "",
             "lease_expiry": expiry
         })
